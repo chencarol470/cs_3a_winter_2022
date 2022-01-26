@@ -617,3 +617,36 @@ print(string1)
 """
 # """ """, this is called multiline string, and we call it docstring when we use it in first statement in the module or function 
 """
+
+# sliced_string = string1[:3]
+# print(sliced_string)
+#
+# hello_world = "Hello world"
+# sliced_hello = hello_world[2:16:2]
+# sliced_hello1 = hello_world[12]
+# print(sliced_hello1)
+# print(sliced_hello)
+
+
+"""
+s[:12] is a slicing build-in function. s[12] is a accessing the element at index 12, 
+which would make it out of bound. indicing and slicing are different functions. 
+Python handles out of bound errors for slicing methods.
+
+
+Python slicing means to access a subsequence of a sequence type using the notation [start:end]. 
+A little-known feature of slicing is that it has robust end indices. 
+Slicing is robust even if the end index is greater than the maximal sequence index. 
+The slice just takes all elements up to the maximal element. 
+If the start index is out of bounds as well, it returns the empty slice.
+https://blog.finxter.com/daily-python-puzzle-overshoot-index-slicing/
+"""
+
+s = set()
+print(type(s))
+dog = "Cat"
+dog = "Dog"
+s.add(dog)
+print(s)
+print(id(dog))
+print(id(s))
