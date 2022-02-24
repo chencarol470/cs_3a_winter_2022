@@ -48,6 +48,9 @@
 #
 # list_of_squares = [0, "zero", 1, "one", 4, "four",\
 #                    16, "sixteen", 0.9999, "end"]
+# my_list = [list_of_squares[i] for i in range(0,len(list_of_squares),2)]
+#
+# print(my_list)
 #
 # print(list_of_squares)
 # print(list_of_squares[1:5])
@@ -69,13 +72,46 @@
 # my_set = my_set.pop()
 # print(my_set)
 
-lst = [x for x in range(11) if x % 2 == 0]
-print(lst)
+# lst = [x for x in range(11) if x % 2 == 0]
+# print(lst)
+#
+# celsius = [0, 10, 20.1, 34.5]
+#
+# fahrenheit = [((9/5) * temp + 32) for temp in celsius]
+# print(fahrenheit)
+#
+# lst1 = [ x ** 2 for x in [ x ** 2 for x in range(11)]]
+# print(lst1)
 
-celsius = [0, 10, 20.1, 34.5]
 
-fahrenheit = [((9/5) * temp + 32) for temp in celsius]
-print(fahrenheit)
+# t = (8) # this type will be still int
+# print(type(t))
+# t = ("8") # this data type will be still str unless we add "," after it
+# print(type(t))
+# t = ()
+# print(type(t))
+# t = (8, )
+# print(t.index(8))
+# print(type(t))
+# t = (8 )
+# print(type(t))
+# """----- run----
+# <class 'int'>
+# <class 'str'>
+# <class 'tuple'>
+# <class 'tuple'>
+# <class 'int'>
+# ----- end run -----"""
 
-lst1 = [ x ** 2 for x in [ x ** 2 for x in range(11)]]
-print(lst1)
+# p = [-5]
+# print(type(p))
+
+# num1 = int(input("Enter a number from 1 - 100 "))
+# num2 = int(input("Enter a number from 1 - 100 "))
+#
+# answer = float(num1 // num2)
+# answer1 = float(num1 / num2)
+# print(answer, answer1)
+
+for k in range(1, 201):
+   count += 1

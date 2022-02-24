@@ -3,24 +3,23 @@
     Submitted by Ying Xia Chen
     Submitted: January 20, 2022
 
-    Assignment 4:
-    Create a container object to hold information about the sensors that are included in the STEM Center dataset.
-    We will use this dataset in a later assignment.A dataset is a collection of data that is stored in an object.
+    Assignment 4: Creating a Sensor Dictionary and List
+    Populate sensors dictionary directly with sensor information
+    Populate sensor_list and filter_list from sensors
 
-    Assignment 3:
-    Create a new file named lab_assignment 3.py.
-    Copy your code from Lab Assignment 2 and paste it into you new file
-    Add information to update the docstring to reflect Lab Assignment 3
-    Add the new code you are writing to support the requirements for Lab Assignment 3
-    Delete the main() the code used in lab_assignment 2 and write a new main() function to generate the required to be
-    output (the Unit Test, for Lab Assignment 3
+    Assignment 3: Implementing a Menu
+    Create a menu that the user will use to interact with our desired program.
 
-    Assignment 2: Add code to prompt the user for a temperature in Celsius and
-    then converts that temperature to a specified different temperature
-    unit.
+    Assignment 2: Added convert_units(celsius_value, units):
+    This function accepts a temperature in Celsius and
+    if units = 0 returns the temperture in Celsius
+    if units = 1 returns the temerature in Farenheit
+    if units = 2 returns the temperature in Kelvin
 
-    Assignment 1: This program demonstrates printing lines of text to the screen
+    Assignment 1: Added print_header()
+    This function prints the standard header whenever the modulle is called.
 """
+
 import sys
 
 sensors = {"4213": ("STEM Center", 0),
@@ -65,13 +64,13 @@ else:
 
 
 def print_header():
-    """ create print_header function """
+    """ create print header function  """
     print("STEM Center Temperature Project")
     print("Ying Xia Chen")
 
 
 def convert_units(celsius_value, units):
-    """ instantiate convert_units function """
+    """ instantiate convert units function """
     if units == 0:  # conditional check and see which units the celsius_value is
         return "That's " + celsius_value + " degrees Celsius"
 
@@ -142,38 +141,38 @@ def print_histogram():
 def main():
     """ create main function """
     print_header()
-    while True:
-        try:
-            print_menu()
-            choice = int(input("What is your Choice? "))
-            if choice == 1:
-                new_file()
-                continue
-            elif choice == 2:
-                choose_units()
-                continue
-            elif choice == 3:
-                change_filter()
-                continue
-            elif choice == 4:
-                print_summary_statics()
-                continue
-            elif choice == 5:
-                print_temp_by_day_time()
-                continue
-            elif choice == 6:
-                print_histogram()
-                continue
-            elif choice == 7:
-                print("Thank you for using the STEM center Temperature Project")
-                break
-            else:
-                print("Invalid Invoice")
-                continue
-
-        except ValueError:
-            print("*** Please enter a number only ***")
+while True:
+    try:
+        print_menu()
+        choice = int(input("What is your Choice? "))
+        if choice == 1:
+            new_file()
             continue
+        elif choice == 2:
+            choose_units()
+            continue
+        elif choice == 3:
+            change_filter()
+            continue
+        elif choice == 4:
+            print_summary_statics()
+            continue
+        elif choice == 5:
+            print_temp_by_day_time()
+            continue
+        elif choice == 6:
+            print_histogram()
+            continue
+        elif choice == 7:
+            print("Thank you for using the STEM center Temperature Project")
+            break
+        else:
+            print("Invalid Invoice")
+            continue
+
+    except ValueError:
+        print("*** Please enter a number only ***")
+        continue
 
 
 if __name__ == "__main__":
