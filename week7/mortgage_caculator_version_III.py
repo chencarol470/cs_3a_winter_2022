@@ -1,7 +1,7 @@
 """ Version 1 """
 # globals shared by more than one function and/or our program ---
 # (initialize to None to force program to define them later)
-from week7.mortgage_caculator_version_II import input_list
+from week7.mortgage_caculator_version_II_Building_on_the_Past import input_list
 
 mtg_principal = None
 annual_int_rate = None

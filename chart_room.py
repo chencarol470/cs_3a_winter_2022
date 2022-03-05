@@ -7,3 +7,5 @@ Sensor Number	Room Number	Room Description
 4	4205	Tiled Room
 5   Out	    Outside
 """
+
+# Temperatures2017-08-06.csv

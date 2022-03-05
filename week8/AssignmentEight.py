@@ -1,13 +1,10 @@
 """
-    Assignment Seven: Filter List
+    Assignment Eight: Dataset Class
     Submitted by Ying Xia Chen
-    Submitted: February 19, 2022
+    Submitted: February 24, 2022
 
-    Assignment 7:
-    This module needs two lists (sensor_list, filter_list) and one dictionary (sensors).
-    Ensure that the  recursive_sort() function is also included in this module.
-    The recursive_sort() function definition should be at the top of the module with the other function definitions.
-    The lists and dictionary should come just before the while loop that runs the menu in main().
+    Assignment 8:
+    Create a class to manage the temperature data
 
 """
 sensors = {"4213": ("STEM Center", 0),
@@ -20,6 +17,71 @@ sensors = {"4213": ("STEM Center", 0),
 
 sensor_list = [(key, sensors[key][0], sensors[key][1]) for key in sensors]
 filter_list = [sensors[i][1] for i in sensors]
+
+
+class TempDataset():
+    """ create class used to represent TempDataset """
+
+    # class ("static") attributes and intended constants
+    ORIGINAL_DEFAULT_TEMP = 0
+    ORIGINAL_DEFAULT_TUP = (0, 0, 0)
+
+    MIN_LEN = 3
+    MAX_LEN = 20
+
+    # class attribute "num_of_temp" and it will change over time.
+    num_of_temp = 0
+
+    temp = ORIGINAL_DEFAULT_TEMP
+
+    # initializer method --------------
+    def __init__(self):
+        self._data_set = None
+        self._name = "Unnamed"
+
+        # each time new TempDataset object is instantiated, the num_of_temp will be updated by 1
+        TempDataset.num_of_temp += 1
+
+    @classmethod
+    def get_num_objects(cls):
+        # classmethod for returning the num_of_temp from TempDataset
+        return cls.num_of_temp
+
+    # name getter method -----------
+    @property
+    def name(self):
+        return self._name
+
+    # name setter method -----------
+    @name.setter
+    def name(self, new_name):
+        if TempDataset.MIN_LEN > len(new_name) or len(new_name) > TempDataset.MAX_LEN:
+            raise ValueError
+        else:
+            self._name = new_name
+
+    def process_file(self, filename):
+        return False
+
+    def get_summary_statistics(self, active_sensors=None):
+        if self._data_set is None:
+            return None
+        return TempDataset.ORIGINAL_DEFAULT_TUP
+
+    def get_avg_temperature_day_time(self, active_sensors, day, time):
+        if self._data_set is None:
+            return None
+        return 0
+
+    def get_num_temps(self, active_sensors, lower_bound, upper_bound):
+        if self._data_set is None:
+            return None
+        return 0
+
+    def get_loaded_temps(self):
+        if self._data_set is None:
+            return None
+        return 0
 
 
 def recursive_sort(list_to_sort, key=0):
@@ -191,13 +253,104 @@ def main():
             print("*** Please enter a number only ***")
             continue
 
+    # client side , Unit Test ------------------------------
+    current_set = TempDataset()
+
+    print("First test of get_num_objects: ", end='')
+
+    if TempDataset.get_num_objects() == 1:
+        print("Success")
+    else:
+        print("Fail")
+
+    second_set = TempDataset()
+
+    print("Second test of get_num_objects: ", end='')
+
+    if TempDataset.get_num_objects() == 2:
+        print("Success")
+    else:
+        print("Fail")
+
+    print("Testing get_name and set_name: ")
+
+    print("- Default Name:", end='')
+
+    if current_set.name == "Unnamed":
+        print("Success")
+    else:
+        print("Fail")
+
+    print("- Try setting a name too short: ", end='')
+
+    try:
+        current_set.name = "to"
+        print("Fail")
+    except ValueError:
+        print("Success")
+
+    print("- Try setting a name too long: ", end='')
+
+    try:
+        current_set.name = "supercalifragilisticexpialidocious"
+        print("Fail")
+    except ValueError:
+        print("Success")
+
+    print("- Try setting a name just right (Goldilocks): ", end='')
+
+    try:
+        current_set.name = "New Name"
+        if current_set.name == "New Name":
+            print("Success")
+        else:
+            print("Fail")
+    except ValueError:
+        print("Fail")
+
+    print("- Make sure we didn't touch the other object: ", end='')
+    if second_set.name == "Unnamed":
+        print("Success")
+    else:
+        print("Fail")
+
+    print("Testing get_avg_temperature_day_time: ", end='')
+    if current_set.get_avg_temperature_day_time(None, 0, 0) is None:
+        print("Success")
+    else:
+        print("Fail")
+
+    print("Testing get_num_temps: ", end='')
+    if current_set.get_num_temps(None, 0, 0) is None:
+        print("Success")
+    else:
+        print("Fail")
+
+    print("Testing get_loaded_temps: ", end='')
+    if current_set.get_loaded_temps() is None:
+        print("Success")
+    else:
+        print("Fail")
+
+    print("Testing get_summary_statistics: ", end='')
+    if current_set.get_summary_statistics(None) is None:
+        print("Success")
+    else:
+        print("Fail")
+
+    print("Testing process_file: ", end='')
+    if current_set.process_file(None) is False:
+        print("Success")
+    else:
+        print("Fail")
+
 
 if __name__ == "__main__":
     """ condition check and if if __name__ is equal to main """
     main()  # if the conditional check is true, then call the main function
 
 """ -----------------------RUN CODE---------------------------------------------
-/usr/local/bin/python3.9 /Users/yingxiachen/PycharmProjects/cs_3a_winter_2022/week7/AssignmentSeven.py
+/usr/local/bin/python3.9 /Users/yingxiachen/PycharmProjects/cs_3a_winter_2022/week8/AssignmentEight.py
 STEM Center Temperature Project
 Ying Xia Chen
 
@@ -211,45 +364,21 @@ Ying Xia Chen
             6 - Show histogram of temperatures
             7 - Quit
             
-What is your Choice? 3
-4201: Foundation Lab [ACTIVE]
-4204: CS Lab [ACTIVE]
-4205: Tiled Room [ACTIVE]
-4213: STEM Center [ACTIVE]
-4218: Workshop Room [ACTIVE]
-Out: Outside [ACTIVE]
-Type the sensor to toggle (e.g. 4201) or x to end 4201
-4201: Foundation Lab
-4204: CS Lab [ACTIVE]
-4205: Tiled Room [ACTIVE]
-4213: STEM Center [ACTIVE]
-4218: Workshop Room [ACTIVE]
-Out: Outside [ACTIVE]
-Type the sensor to toggle (e.g. 4201) or x to end 4205
-4201: Foundation Lab
-4204: CS Lab [ACTIVE]
-4205: Tiled Room
-4213: STEM Center [ACTIVE]
-4218: Workshop Room [ACTIVE]
-Out: Outside [ACTIVE]
-Type the sensor to toggle (e.g. 4201) or x to end 4000
-4201: Foundation Lab
-4204: CS Lab [ACTIVE]
-4205: Tiled Room
-4213: STEM Center [ACTIVE]
-4218: Workshop Room [ACTIVE]
-Out: Outside [ACTIVE]
-Type the sensor to toggle (e.g. 4201) or x to end x
+What is your Choice? 7
+Thank you for using the STEM center Temperature Project
+First test of get_num_objects: Success
+Second test of get_num_objects: Success
+Testing get_name and set_name: 
+- Default Name:Success
+- Try setting a name too short: Success
+- Try setting a name too long: Success
+- Try setting a name just right (Goldilocks): Success
+- Make sure we didn't touch the other object: Success
+Testing get_avg_temperature_day_time: Success
+Testing get_num_temps: Success
+Testing get_loaded_temps: Success
+Testing get_summary_statistics: Success
+Testing process_file: Success
 
-            Main Menu
-            ---------
-            1 - Process a new data file
-            2 - Choose Units
-            3 - Edit room filter
-            4 - Show summary statistics
-            5 - Show temperature by date and time
-            6 - Show histogram of temperatures
-            7 - Quit
-            
-What is your Choice? 
+Process finished with exit code 0
 -----------------------END--------------------------------------------------"""

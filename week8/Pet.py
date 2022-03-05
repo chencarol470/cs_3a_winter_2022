@@ -71,6 +71,11 @@ def main():
     my_dog.pets_age = 10
     # print(f"his age is {my_dog.pets_age}.")
 
+    try:
+        my_dog.number_of_limbs = -10
+        print("Fail")
+    except ValueError as ex:
+        print(ex)
     #above is same as
     print(getattr(my_dog,"pets_name"))
     setattr(my_dog,"pets_age", 8)
@@ -87,6 +92,7 @@ def main():
 
     print_screen(my_dog)
     print_screen(your_dog)
+    print(my_dog.number_of_limbs)
 
     print(Pet.__dict__)
 

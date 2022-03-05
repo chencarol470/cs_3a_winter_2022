@@ -1,11 +1,17 @@
 """
-    Assignment Four: Creating a Sensor List and Filter List
+    Assignment Six: Bubble sort using recursion
     Submitted by Ying Xia Chen
     Submitted: January 20, 2022
 
     Assignment 6:
-    Add the function recursive_sort() which has as its parameters, list_to_sort(a list of tuple)
-
+    Start with the code you created for Assignment Four.
+    Change the Sensor Number for Outside to 5.
+    Add the function recursive_sort() which has as its parameters, list_to_sort (a list of tuples like the one you just made) and key.
+    key should have a default value of zero, and refers to whether the list should be sorted by the first or second value in the tuple.
+    Of course, recursive_sort() should call itself as part of the process.
+    The sorted part of the list will be growing from the end of the list (the greatest value).
+    Each time you call recursive_sort, you should be calling with a smaller list.
+    You can use slicing for this.
 """
 
 sensors = {"4213": ("STEM Center", 0),
