@@ -247,7 +247,7 @@ def change_filter(sensor_list, active_sensors):
                 filter_list.remove(sensors[key])
                 continue
             # elif user_input != key and sensors[key] not in filter_list and 4200 < int(user_input) < 4300:
-            # this is the elif check to append the removed list back.
+            #     #this is the elif check to append the removed list back.
             #     filter_list.append(sensors[key])
             #     filter_list.sort()
             #     continue
