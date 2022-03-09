@@ -1,35 +1,33 @@
-# Begining of class Student definition -----------------------
-class Student():
-    """
-    The Student class...
-    """
-
+class Student:
     # class ("static") attributes and intended constants
-    DEFAULT_FIRST_NAME = "zz-error"
-    DEFAULT_LAST_NAME = "trevor"
+    DEFAULT_NAME = "zz-error"
     DEFAULT_POINTS = 0
     MAX_POINTS = 30
 
+    # initializer method -------------------
     def __init__(self,
-                 first=DEFAULT_FIRST_NAME,
-                 last=DEFAULT_LAST_NAME,
+                 last=DEFAULT_NAME,
+                 first=DEFAULT_NAME,
                  points=DEFAULT_POINTS):
-        try:
-            self.first_name = first
-        except ValueError:
-            self._first_name = Student.DEFAULT_FIRST_NAME
+        # instance attributes
+
         try:
             self.last_name = last
         except ValueError:
-            self._last_name = Student.DEFAULT_LAST_NAME
+            self._last_name = Student.DEFAULT_NAME
+
+        try:
+            self.first_name = first
+        except ValueError:
+            self._first_name = Student.DEFAULT_NAME
+
         try:
             self.total_points = points
         except ValueError:
             self._total_points = Student.DEFAULT_POINTS
 
-    # initializer method
+    # accessor ("get") methods -------------------------
 
-    # getter method --------------------------------------
     @property
     def last_name(self):
         return self._last_name
@@ -42,47 +40,49 @@ class Student():
     def total_points(self):
         return self._total_points
 
-    # setter method -------------------------------------
+    # mutator ("set") methods -----------------
     @last_name.setter
-    def last_name(self, new_l_nm):
-        if not Student.valid_string(new_l_nm):
+    def last_name(self, last):
+        if not self.valid_string(last):
             raise ValueError
-        self._last_name = new_l_nm
+        self._last_name = last
 
     @first_name.setter
-    def first_name(self, new_f_nm):
-        if not Student.valid_string(new_f_nm):
+    def first_name(self, first):
+        if not self.valid_string(first):
             raise ValueError
-        self._first_name = new_f_nm
+        self._first_name = first
 
     @total_points.setter
-    def total_points(self, new_total_points):
-        if not Student.valid_point(new_total_points):
+    def total_points(self, points):
+        if not self.valid_point(points):
             raise ValueError
-        self._total_points = new_total_points
+        self._total_points = points
 
-    # output method ____________________________
-    def display(self, client_intro_str="--- STUDENT DATA ---"):
-        print(self.to_string(client_intro_str))
+    # output method ----------------------------------
+    def display(self, client_into_str="--- STUDENT DATA ---"):
+        print(client_into_str + str(self))
 
-    # standard python string
+    # standard python stringizer ----------------------
     def __str__(self):
         return self.to_string()
 
-    # instance helper ------------------------
-    def to_string(self, optional_title="--------------"):
-        if not True:
-            optional_title = "--------------"
-        ret_str = f"{optional_title}      " \
-                  f"\nname       : {self._first_name} {self._last_name}\n" \
-                  f"Total Point: {self._total_points}\n " \
-                  f"\n"
+    # instance helpers --------------------------------
+    def to_string(self, optional_title="------------------------"):
+        ret_str = (f"{optional_title}"
+                   f"\n    name: {self.last_name}, {self.first_name}"
+                   f"\n    total points: {self.total_points}.")
         return ret_str
 
-    # static / class methods ----------------
+    # def to_repr(self):
+    #     ret_str = (f"representation "
+    #                f"\n  class_id:{hex(self._first_name)}")
+    #     return ret_str
+
+    # static/class methods---------------------------------
     @staticmethod
     def valid_string(test_str):
-        if len(test_str) > 0 and test_str[0].isalpha():
+        if (len(test_str) > 0) and test_str[0].isalpha():
             return True
         return False
 
@@ -102,8 +102,6 @@ class Student():
         scnd_upper = second_string.upper()
         if fst_upper < scnd_upper:
             return -1
-        if fst_upper > scnd_upper:
-            return 1
         return 0
 
 
@@ -127,7 +125,7 @@ class StudentArrayUtilities:
                   optional_title="--- The Students -----------:\n"):
         ret_val = optional_title + "\n"
         for student in stud_array:
-            ret_val = ret_val + str(student)
+            ret_val = ret_val + str(student) + "\n"
         return ret_val
 
     @staticmethod
@@ -137,8 +135,7 @@ class StudentArrayUtilities:
         # notice we stop at array_size - 2 because of expr. k + 1 in loop
         for k in range(array_size - 1):
             if Student.compare_strings_ignore_case(
-                    data[k].last_name,data[k + 1].last_name) > 0:
-                    # data[k].first_name, data[k + 1].first_name) > 0:
+                    data[k].last_name, data[k + 1].last_name) > 0:
                 data[k], data[k + 1] = data[k + 1], data[k]
                 changed = True
 
@@ -159,15 +156,9 @@ def main():
         ]
     for index in range(len(my_students)):
         my_students[index].display()
-        # print(type(my_students[index]))
-    array_size = len(my_students)
-    StudentArrayUtilities.print_array(my_students, "Before: ")
-    StudentArrayUtilities.array_sort(my_students, array_size)
-    StudentArrayUtilities.print_array(my_students, "After")
-    # print(StudentArrayUtilities.__str__())
-    # TypeError: descriptor '__str__' of 'object' object needs an argument
-    # print(Student.__str__())
-    # print(my_students.__str__())
+        print(type(my_students[index]))
+    # po = Student.to_repr()
+    print(make_a_guest_student())
 
 
 if __name__ == "__main__":
