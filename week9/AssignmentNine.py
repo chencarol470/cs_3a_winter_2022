@@ -162,7 +162,7 @@ def print_header():
 def convert_units(celsius_value, units):
     """ instantiate convert_units function """
     if units == 0:  # conditional check and see which units the celsius_value is
-        return "That's " + celsius_value + " degrees Celsius"
+        return f"That's {celsius_value} degrees Celsius"
     elif units == 1:  # if the unit is differed from celsius, do conversion below,
         fahrenheit = float(celsius_value) * 9 / 5 + 32
         return f'That\'s {"{:.2f}".format(fahrenheit)} degrees Fahrenheit'
@@ -232,27 +232,29 @@ def print_filter(sensor_list, filter_list):
 def change_filter(sensor_list, active_sensors):
     """ create change_filter function to filter list with sensor_list """
     sensors = {item[0]: item[2] for item in sensor_list}
-    changed = True
-    while changed:
+    while True:
         print_filter(sensor_list, active_sensors)
-        changed = False
-        user_input = input("Type the sensor to toggle (e.g. 4201) or x to end ")
-        for key in sensors:
-            if user_input == 'x' or user_input == 'x'.upper():
+        user_input = str(input("Type the sensor to toggle (e.g. 4201) or x to end "))
+        try:
+            if user_input in sensors:
+                for key in sensors:
+                    if key == user_input or user_input.lower() == key:
+                        filter_list.remove(sensors[key])
+                        continue
+            elif user_input == 'x' or user_input == 'x'.upper():
                 break
             elif 4000 < int(user_input) < 4200:
                 print("Invalid sensor")
-                continue
-            elif key == user_input:
-                filter_list.remove(sensors[key])
-                continue
+                break
+        except TypeError:
+            print("Type Error")
+
+
             # elif user_input != key and sensors[key] not in filter_list and 4200 < int(user_input) < 4300:
             #     #this is the elif check to append the removed list back.
             #     filter_list.append(sensors[key])
             #     filter_list.sort()
             #     continue
-
-            changed = True
 
 
 def print_summary_statics(dataset, active_sensors):
