@@ -14,6 +14,8 @@ Sensor Number	Room Number	Room Description
 
 #  Temperatures2022-03-10.csv
 
+if day is None and time is None:
+    sum_temp += tup[3]
 
 """ create print_summary_statics function """
 if dataset._data_set is None or active_sensors is None:
@@ -71,3 +73,23 @@ else:
     #
     except TypeError:
         print("Please load data file and make sure at least one sensor is active")
+
+
+def get_avg_temperature_day_time(self, active_sensors, day, time):
+    if self._data_set is None or len(active_sensors) == 0:
+        return None
+    else:
+        sum_temp = 0
+        count = 0
+        for tup in self._data_set:
+            if tup[2] in active_sensors:
+                if (tup[1] == time and tup[0] == day) or day is None or time is None:
+                    count += 1
+                    sum_temp += tup[3]
+        ave_temp = sum_temp / count
+        return ave_temp
+        sum_temp = [temp[3] for temp in self._data_set \
+                    if (temp[2] in active_sensors) and (temp[0] == day) and (temp[1] == time)]
+        avg_temp = sum(sum_temp) / len(sum_temp)
+
+        return avg_temp

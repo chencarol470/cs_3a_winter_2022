@@ -6,7 +6,6 @@
     Assignment 10:
     Implementing Choose_Units Function / Printing Some Statistics.
 """
-
 import math
 
 sensors = {"4213": ("STEM Center", 0),
@@ -111,23 +110,12 @@ class TempDataset():
             return None
         else:
             try:
-                min_temp = self._data_set[0][3]
-                for idx in range(0, len(self._data_set) - 1):
-                    if self._data_set[idx][2] in active_sensors and self._data_set[idx][3] <= min_temp:
-                        min_temp = self._data_set[idx][3]
-                    else:
-                        min_temp = min_temp
-
-                max_temp = self._data_set[0][3]
-                for idx in range(0, len(self._data_set) - 1):
-                    if len(active_sensors) != 0 and \
-                            self._data_set[idx][2] in active_sensors and \
-                            self._data_set[idx][3] >= max_temp:
-                        max_temp = self._data_set[idx][3]
-                    else:
-                        max_temp = max_temp
-
-                avg_temp = float(f'{self.get_avg_temperature_day_time(active_sensors, day=5, time=7):.2f}')
+                avg_temp = float(f'\
+                            {self.get_avg_temperature_day_time(active_sensors, day=None, time=None):.2f}')
+                min_temp = min(temp[3] for temp in self._data_set \
+                               if (temp[2] in active_sensors))
+                max_temp = max(temp[3] for temp in self._data_set \
+                               if (temp[2] in active_sensors))
                 temp_tup = (min_temp, max_temp, avg_temp)
                 return temp_tup
             except TypeError:
@@ -139,13 +127,11 @@ class TempDataset():
         else:
             sum_temp = 0
             count = 0
-            for idx in range(0, len(self._data_set) - 1):
-                if self._data_set[idx][2] in active_sensors \
-                        and self._data_set[idx][1] == time \
-                        and self._data_set[idx][0] == day:
-                    count += 1
-                    sum_temp += self._data_set[idx][3]
-
+            for tup in self._data_set:
+                if tup[2] in active_sensors:
+                    if (tup[1] == time and tup[0] == day) or day is None or time is None:
+                        count += 1
+                        sum_temp += tup[3]
             ave_temp = sum_temp / count
             return ave_temp
 
@@ -200,13 +186,16 @@ def print_header():
 def convert_units(celsius_value, units):
     """ instantiate convert_units function """
     if units == 0:  # conditional check and see which units the celsius_value is
-        return f"That's {celsius_value} degrees Celsius"
+        # return f"That's {celsius_value} degrees Celsius"
+        return f" {celsius_value} C"
     elif units == 1:  # if the unit is differed from celsius, do conversion below,
         fahrenheit = float(celsius_value) * 9 / 5 + 32
-        return f'That\'s {"{:.2f}".format(fahrenheit)} degrees Fahrenheit'
+        # return f'That\'s {"{:.2f}".format(fahrenheit)} degrees Fahrenheit'
+        return f"{fahrenheit:.2f} F"
     elif units == 2:
         kevin = float(celsius_value) + 273.15
-        return f'That\'s {"{:.2f}".format(kevin)} degrees kevin'
+        # return f'That\'s {"{:.2f}".format(kevin)} degrees kevin'
+        return f"{kevin:.2f} K"
     else:
         # if the input int is other number than 0,1,2,
         # print error message and exit the code(sys.exit())
@@ -289,17 +278,20 @@ def change_filter(sensor_list, active_sensors):
     sensors = {item[0]: item[2] for item in sensor_list}
     while True:
         print_filter(sensor_list, active_sensors)
-        user_input = input("Type the sensor to toggle (e.g. 4201) or x to end ")
-        if user_input in sensors:
-            sensor_num = sensors[user_input]
-            if sensor_num in active_sensors:
-                active_sensors.remove(sensor_num)
-        elif user_input == 'x' or user_input == 'x'.upper():
-            break
-        elif 4000 < int(user_input) < 4200:
-            print("Invalid sensor")
-        else:
-            continue
+        user_input = str(input("Type the sensor to toggle (e.g. 4201) or x to end "))
+        try:
+            if user_input in sensors:
+                for key in sensors:
+                    if key == user_input or user_input.lower() == key:
+                        filter_list.remove(sensors[key])
+                        continue
+            elif user_input == 'x' or user_input == 'x'.upper():
+                break
+            elif 4000 < int(user_input) < 4200:
+                print("Invalid sensor")
+                break
+        except TypeError:
+            print("Type Error")
 
 
 def print_summary_statics(dataset, active_sensors):
@@ -311,23 +303,9 @@ def print_summary_statics(dataset, active_sensors):
             summary_tup = dataset.get_summary_statistics(active_sensors)
             level_tup = ("Minimum", "Maximum", "Average")
             lvl_sum_dict = {level_tup[idx]: summary_tup[idx] for idx in range(len(summary_tup))}
-            unit = UNITS[current_unit][1]
-            if current_unit == 0:
-                print(f"Summary statistics for Test Week")
-                for k in lvl_sum_dict:
-                    print(f"{k} temperature: {lvl_sum_dict[k]} {unit}")
-
-            if current_unit == 1:
-                print(f"Summary statistics for Test Week")
-                for k in lvl_sum_dict:
-                    val = float('{f:.2f}'.format(f=lvl_sum_dict[k] * 9 / 5 + 32))
-                    print(f"{k} temperature: {val} {unit}")
-
-            if current_unit == 2:
-                print(f"Summary statistics for Test Week")
-                for k in lvl_sum_dict:
-                    val = float('{v:.2f}'.format(v=lvl_sum_dict[k] + 273.15))
-                    print(f"{k} temperature: {val} {unit}")
+            print(f"Summary statistics for Test Week")
+            for k in lvl_sum_dict:
+                print(f"{k} temperature: {convert_units(lvl_sum_dict[k],current_unit)}")
 
         except TypeError:
             print("Please load data file and make sure at least one sensor is active")
@@ -433,12 +411,12 @@ Please provide a 3 to 20 character name for the dataset my Data Set: aaa
             6 - Show histogram of temperatures
             7 - Quit
             
-20.493333333333336
+20.45544117647059
 What is your Choice? 4
 Summary statistics for Test Week
-Minimum temperature: 16.55 C
-Maximum temperature: 28.42 C
-Average temperature: 20.49 C
+Minimum temperature:  16.55 C
+Maximum temperature:  28.42 C
+Average temperature:  21.47 C
 
             Main Menu
             ---------
@@ -450,7 +428,7 @@ Average temperature: 20.49 C
             6 - Show histogram of temperatures
             7 - Quit
             
-20.493333333333336
+20.45544117647059
 What is your Choice? 2
 Current units in Celsius
 Choose new units
@@ -469,12 +447,12 @@ Which unit? 1
             6 - Show histogram of temperatures
             7 - Quit
             
-20.493333333333336
+20.45544117647059
 What is your Choice? 4
 Summary statistics for Test Week
 Minimum temperature: 61.79 F
 Maximum temperature: 83.16 F
-Average temperature: 68.88 F
+Average temperature: 70.65 F
 
             Main Menu
             ---------
@@ -486,7 +464,7 @@ Average temperature: 68.88 F
             6 - Show histogram of temperatures
             7 - Quit
             
-20.493333333333336
+20.45544117647059
 What is your Choice? 3
 4201: Foundation Lab [ACTIVE]
 4204: CS Lab [ACTIVE]
@@ -520,12 +498,12 @@ Type the sensor to toggle (e.g. 4201) or x to end x
             6 - Show histogram of temperatures
             7 - Quit
             
-19.942000000000004
+19.910638297872342
 What is your Choice? 4
 Summary statistics for Test Week
 Minimum temperature: 61.79 F
 Maximum temperature: 83.16 F
-Average temperature: 67.89 F
+Average temperature: 70.12 F
 
             Main Menu
             ---------
@@ -537,7 +515,7 @@ Average temperature: 67.89 F
             6 - Show histogram of temperatures
             7 - Quit
             
-19.942000000000004
+19.910638297872342
 What is your Choice? 3
 4201: Foundation Lab
 4204: CS Lab
@@ -602,5 +580,4 @@ Please load data file and make sure at least one sensor is active
 None
 What is your Choice? 7
 Thank you for using the STEM center Temperature Project
-
 ------------------------------------END CODE ------------------------------------"""
