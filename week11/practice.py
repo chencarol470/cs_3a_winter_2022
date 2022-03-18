@@ -17,7 +17,7 @@ pd.options.display.max_columns = None
 # print(type(kids_heights.columns))
 # print(kids_heights.index)
 # print(kids_heights.values)
-# # # print(kids_heights.values[0][0])
+
 # #
 # # ttl = 0
 # # count = 0
@@ -124,15 +124,14 @@ pd.options.display.max_columns = None
 # my_series1 = pd.DataFrame(dict1,data)
 # print(my_series1.head())
 
-lst = [[1,2], [4,5], [7,8]]
-idx = ['cobra', 'viper', 'sidewinder']
-col = ['max_speed', 'shield']
-
-df = pd.DataFrame(lst, index=idx, columns=col)
-print(df)
-viper_val = df.loc["viper"]
-print(viper_val)
-max_sp = df.loc["cobra", "max_speed"]  #getting the cobra row and max_speed index's value
-print(max_sp)
-
+# lst = [[1,2], [4,5], [7,8]]
+# idx = ['cobra', 'viper', 'sidewinder']
+# col = ['max_speed', 'shield']
+#
+# df = pd.DataFrame(lst, index=idx, columns=col)
+# print(df)
+# viper_val = df.loc["viper"]
+# print(viper_val)
+# max_sp = df.loc["cobra", "max_speed"]  #getting the cobra row and max_speed index's value
+# print(max_sp)
 
